@@ -1,4 +1,6 @@
 
+import java.util.*;
+
 
 class ModifiedLinkedList<AnyType> extends MyLinkedList{
 
@@ -311,18 +313,128 @@ public void insertList(ModifiedLinkedList<AnyType>lst, int index){
 }
 public class ModifyAndTestLinkedList {
     
+    public static ModifiedLinkedList<String>takeListInput()
+    {
+        ModifiedLinkedList<String> lst = new ModifiedLinkedList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter elements of the linked list seperated by space and enter key after all elemnts have been entered:");
+        String str = sc.nextLine();
+        
+        int lastSpaceIndex = -1;
+        for(int i = 0; i<str.length(); i++)
+        {
+            if(str.charAt(i) == ' ')
+            {
+                String element = str.substring(lastSpaceIndex+1, i);
+                lst.add(element);
+                lastSpaceIndex = i;
+            }
+        }
+        lst.add(str.substring(lastSpaceIndex+1));
+
+        System.out.println("Inputted list");
+        System.out.println(lst);
+        return lst;
+    }
     public static void main( String [ ] args )
     {
-        ModifiedLinkedList<Integer> lst = new ModifiedLinkedList<>( );
+        ModifiedLinkedList<String> lst1 = takeListInput();
 
+        Scanner s = new Scanner(System.in);
+        System.out.println("Select the operation to perform: 1 for Swap, 2 for shift, 3 for erase, 4 for insertList, 5 for changing list,  6 for exit");
+        boolean operationRunning = true;
         
+        String operationCode = (s.nextLine()).trim();
+        while(operationRunning)
+        {   
+           
+            if(operationCode.equals("1"))
+            {
+                System.out.println("Enter the two indices to be swapped, seperted by space. Press enter after both inputted.");
+                String indicesString = s.nextLine();
+                String indices[] = indicesString.split(" "); 
+                int index1 = Integer.parseInt(indices[0]);
+                int index2 = Integer.parseInt(indices[1]);
 
-        for( int i = 1; i < 6; i++ )
-                lst.add( i );
+                System.out.println("List before swapping");
+                System.out.println(lst1);
+                lst1.swap(index1, index2);
+                System.out.println("List after swapping:");
+                System.out.println(lst1);
 
-        ModifiedLinkedList<Integer>lst2 = new ModifiedLinkedList<>();
-        for(int i = 1; i < 6; i++)
-            lst2.add(-1*i);
+                System.out.println("Select the operation to perform: 1 for Swap, 2 for shift, 3 for erase, 4 for insertList, 5 for exit");
+                operationCode = s.nextLine();
+                
+
+            }
+            else if(operationCode.equals("2"))
+            {
+                System.out.println("Enter the shift amount");
+                int shiftAmount = Integer.parseInt(s.nextLine());
+                System.out.println("List before shifting");
+                System.out.println(lst1);
+
+                lst1.shift(shiftAmount);
+
+                System.out.println("List after shifting");
+                System.out.println(lst1);
+                System.out.println("Select the operation to perform: 1 for Swap, 2 for shift, 3 for erase, 4 for insertList, 5 to change list, 6 for exit");
+                operationCode = s.nextLine();
+                
+                
+            }
+            else if(operationCode.equals("3"))
+            {
+                System.out.println("Enter the index and number of erasing operations to be performed seperted by space. Press enter after both inputted.");
+                String numbersString = s.nextLine();
+                String numbers[] = numbersString.split(" "); 
+                int index = Integer.parseInt(numbers[0]);
+                int numDeletions = Integer.parseInt(numbers[1]);
+
+                System.out.println("List before deletions");
+                System.out.println(lst1);
+
+                System.out.println("List after deletion");
+                lst1.erase(index, numDeletions);
+                System.out.println(lst1);
+                System.out.println("Select the operation to perform: 1 for Swap, 2 for shift, 3 for erase, 4 for insertList, 5 to change list, 6 for exit");
+                operationCode = s.nextLine();
+                
+
+            }
+            else if(operationCode.equals("4"))
+            {
+                ModifiedLinkedList<String>lst2 = takeListInput();
+                System.out.println("Enter the index number");
+                int index = s.nextInt();
+                s.nextLine();
+                System.out.println("List before merger");
+                System.out.println(lst1);
+                System.out.println("List after merger");
+                lst1.insertList(lst2, index);
+                System.out.println(lst1);
+                System.out.println("Select the operation to perform: 1 for Swap, 2 for shift, 3 for erase, 4 for insertList, 5 to change the list, 6 for exit");
+                operationCode = s.nextLine();
+                
+            }
+
+            else if(operationCode.equals("5"))
+            {
+                System.out.println("Enter the new list");
+                lst1 = takeListInput();
+                System.out.println("Select the operation to perform: 1 for Swap, 2 for shift, 3 for erase, 4 for insertList, 5 to change the list, 6 for exit");
+                operationCode = s.nextLine();
+                
+            }
+            else
+            {
+                System.out.println("Terminating");
+                s.close();
+                break;
+            }
+
+        }
+        
         
         /*
         for( int i = 20; i < 30; i++ )
@@ -342,19 +454,16 @@ public class ModifyAndTestLinkedList {
         }
     */
     
-    System.out.println("Orignal List");
-    System.out.println(lst);
-
-    
-    
-    System.out.println("Modified List after performed operation: ");
-    lst.swap(0, 1);
+   
     
 
     //lst.shift(-1);
     //lst.erase(1,4);
     //lst.insertList(lst2, 5);
-    System.out.println(lst);
+
+    
+    
+
 
     }
 }
